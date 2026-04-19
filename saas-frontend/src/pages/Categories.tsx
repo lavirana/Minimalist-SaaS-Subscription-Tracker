@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'; //useState helps the component remember data, useEffect help the component do tasks - like fetching data, when it first loads.
 import { categoryApi } from '../services/api'; //we bring in our categoryApi to fetch the categories from the backend.
+import { Plus } from 'lucide-react';
+import AddCategoryModal from '../components/AddCategoryModal';
 
 
 // this part tell TypeScript - every category in our list will look like this. if a category doesn't have an id or name, TypeScript will warn us.
@@ -13,6 +15,7 @@ interface Category {
 
 
 const Categories = () => {
+    const [showModal,  setShowModal]  = useState(false)
     const [categories, setCategories] = useState<Category[]>([]); //state : the memory - categories: This is a variable that holds your list of data. Initially, it is empty []. 
     
     // setCategories: This is a function that you can call to update the categories variable. When you call setCategories with new data, React will remember that data and also re-render the component to show the updated list.
@@ -37,7 +40,16 @@ const Categories = () => {
     
     return (
         <div style={{ width: '100%', padding: '20px' }}>
-            <h1>All Categories</h1>
+            {/* Header */}
+            <div className="page-header">
+                <h1 className="page-title">All Categories</h1>
+                <button
+                    className="btn-primary"
+                    onClick={() => setShowModal(true)}
+                    >
+                    <Plus size={16} /> Add New
+                </button>
+            </div>
             <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
                 <thead>
                     <tr style={{ backgroundColor: '#f4f4f4', textAlign: 'left' }}>
@@ -60,6 +72,16 @@ const Categories = () => {
                     ))}
                 </tbody>
             </table>
+                  {/* Add Modal */}
+                  {showModal && (
+                <AddCategoryModal
+                    onClose={() => setShowModal(false)}
+                    onSave={async (data) => {
+                        //await create(data)
+                        setShowModal(false)
+                    }}
+                />
+            )}
         </div>
     );
 };
