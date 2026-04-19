@@ -1,48 +1,63 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // GET /api/categories
     public function index()
     {
-        //
+        return response()->json(
+            Category::withCount('subscriptions')->get()
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // POST /api/categories — only admin can store the category
     public function store(Request $request)
     {
-        //
+        // Simple admin check
+        if ($request->user()->email !== config('app.admin_email')) {
+            return response()->json(['message' => 'Admin only'], 403);
+        }
+
+        $validated = $request->validate([
+            'name'  => 'required|string|max:100|unique:categories,name',
+            'color' => 'required|string|max:7',
+            'icon'  => 'nullable|string|max:10',
+        ]);
+
+        return response()->json(
+            Category::create($validated), 201
+        );
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // PUT /api/categories/{id} — only admin have a permission to update the existing category
+    public function update(Request $request, Category $category)
     {
-        //
+        if ($request->user()->email !== config('app.admin_email')) {
+            return response()->json(['message' => 'Admin only'], 403);
+        }
+
+        $validated = $request->validate([
+            'name'  => 'sometimes|string|max:100',
+            'color' => 'sometimes|string|max:7',
+            'icon'  => 'nullable|string|max:10',
+        ]);
+
+        $category->update($validated);
+        return response()->json($category);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    // DELETE /api/categories/{id} — only admin can delete the cat
+    public function destroy(Request $request, Category $category)
     {
-        //
-    }
+        if ($request->user()->email !== config('app.admin_email')) {
+            return response()->json(['message' => 'Admin only'], 403);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $category->delete();
+        return response()->json(['message' => 'Deleted']);
     }
 }

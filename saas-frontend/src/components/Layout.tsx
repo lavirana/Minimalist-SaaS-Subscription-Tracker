@@ -4,7 +4,8 @@ import {
     LayoutDashboard,
     CreditCard,
     LogOut,
-    User
+    User,
+    List
 } from 'lucide-react'
 
 export default function Layout() {
@@ -44,6 +45,16 @@ export default function Layout() {
                     >
                         <CreditCard size={18} />
                         Subscriptions
+                    </NavLink>
+
+                    <NavLink
+                    to="/cats"
+                    className={({ isActive }) => 
+                        isActive ? 'nav-item active' : 'nav-item'
+                    }
+                    >
+                    <List size={18} />
+                    Categories
                     </NavLink>
                 </nav>
 

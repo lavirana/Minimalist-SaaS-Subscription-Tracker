@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Subscriptions from './pages/Subscriptions'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Categories from './pages/Categories'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
     const { user, loading } = useAuth()
@@ -34,6 +35,7 @@ function AppRoutes() {
             }>
                 <Route index          element={<Dashboard />} />
                 <Route path="subs"    element={<Subscriptions />} />
+                <Route path='cats'  element={<Categories />} />
             </Route>
         </Routes>
     )

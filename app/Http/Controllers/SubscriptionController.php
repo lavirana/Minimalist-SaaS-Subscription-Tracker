@@ -12,7 +12,7 @@ class SubscriptionController extends Controller
      */
     public function index(Request $request)
     {
-        $query = $request->user()->subscription()->with('category')->orderBy('renewal_date');
+        $query = $request->user()->subscriptions()->with('category')->orderBy('renewal_date');
 
         if($request->has('status')) {
             $query->where('status', $request->status);
