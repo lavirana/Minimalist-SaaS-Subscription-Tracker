@@ -18,9 +18,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         // Simple admin check
-        if ($request->user()->email !== config('app.admin_email')) {
-            return response()->json(['message' => 'Admin only'], 403);
-        }
+      //  if ($request->user()->email !== config('app.admin_email')) {
+      //      return response()->json(['message' => 'Admin only'], 403);
+      //  }
 
         $validated = $request->validate([
             'name'  => 'required|string|max:100|unique:categories,name',

@@ -31,6 +31,10 @@ const Categories = () => {
     }, []);
 
 
+    function create(data: any) {
+        throw new Error('Function not implemented.');
+    }
+
     //The Render: Drawing the Table
     //return (...): This is what actually gets drawn on your user's browser.
     //<table>: We create the table structure.
@@ -58,6 +62,7 @@ const Categories = () => {
                         <th style={{ padding: '12px', borderBottom: '2px solid #ddd', color: 'black' }}>Color</th>
                         <th style={{ padding: '12px', borderBottom: '2px solid #ddd', color: 'black' }}>Icon</th>
                         <th style={{ padding: '12px', borderBottom: '2px solid #ddd', color: 'black' }}>Subscriptions</th>
+                        <th style={{ padding: '12px', borderBottom: '2px solid #ddd', color: 'black' }}>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +73,7 @@ const Categories = () => {
                             <td style={{ padding: '12px', color: cat.color }}>{cat.color}</td>
                             <td style={{ padding: '12px', fontSize: '1.2rem' }}>{cat.icon}</td>
                             <td style={{ padding: '12px' }}>{cat.subscriptions_count}</td>
+                            <td style={{ padding: '12px' }}><button style={{ borderRadius: '2px', padding: '9px' }} className="btn-primary">Update</button></td>
                         </tr>
                     ))}
                 </tbody>
@@ -76,8 +82,8 @@ const Categories = () => {
                   {showModal && (
                 <AddCategoryModal
                     onClose={() => setShowModal(false)}
-                    onSave={async (data) => {
-                        //await create(data)
+                    onSaved={async (data) => {
+                        await create(data)
                         setShowModal(false)
                     }}
                 />
